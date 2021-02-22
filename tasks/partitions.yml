@@ -1,0 +1,11 @@
+---
+
+- name: Create partition within default route domain
+  bigip_partition:
+    name: "{{ team }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost

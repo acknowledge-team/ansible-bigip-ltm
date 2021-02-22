@@ -1,0 +1,24 @@
+---
+# tasks file for ansible-bigip-ltm
+
+- name: Ensure partitions has been created
+  include: partitions.yml
+
+- name: Ensure monitors has been created
+  include: monitors.yml
+
+- name: Ensure nodes has been created
+  include: nodes.yml
+
+- name: Ensure pool has been created
+  include: pool.yml
+
+- name: Ensure snat ltm objects have been created
+  include: snat.yml
+  when: snat | bool
+
+- name: Ensure ltm profiles used have been created
+  include: profiles.yml
+
+- name: Ensure virtual server has been created
+  include: vs.yml

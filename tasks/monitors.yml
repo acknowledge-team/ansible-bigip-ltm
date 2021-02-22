@@ -1,0 +1,48 @@
+---
+
+- name: Create udp monitors for the application
+  bigip_monitor_udp:
+    state: present
+    name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
+    partition: "{{ team }}"
+    interval: "{{ udp_monitor_settings.interval | default(5) }}"
+    timeout: "{{ udp_monitor_settings.timeout | default(16) }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: monitor == 'udp'
+
+- name: Create tcp monitor for the application
+  bigip_monitor_tcp:
+    state: present
+    name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
+    partition: "{{ team }}"
+    interval: "{{ tcp_monitor_settings.interval | default(5) }}"
+    timeout: "{{ tcp_monitor_settings.timeout | default(16) }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: monitor == 'tcp'
+
+- name: Create http monitor for the application
+  bigip_monitor_http:
+    state: present
+    name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
+    partition: "{{ team }}"
+    interval: "{{ http_monitor_settings.interval | default(5) }}"
+    timeout: "{{ http_monitor_settings.timeout | default(16) }}"
+    receive: "{{ http_monitor_settings.receive | default('') }}"
+    send: "{{ http_monitor_settings.send | default('') }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: monitor == 'http'

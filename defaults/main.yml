@@ -1,0 +1,104 @@
+---
+# defaults file for ansible-bigip-ltm
+
+#---------------------------------
+# BIGIP CONNECTION
+#---------------------------------
+bigip_hostname: ""
+bigip_user: ""
+bigip_passwd: ""
+bigip_validate_certs: false
+
+#---------------------------------
+# MIGRATION FLAGS
+#---------------------------------
+readdressed: true
+
+#---------------------------------
+# APPLICATION
+#---------------------------------
+
+application: ""
+env: "" # should be rec, dev, prd, ...
+team: ""
+rd: ""
+
+#---------------------------------
+# DEFAULT POOL MONITOR
+#---------------------------------
+## This part is used to create the monitor for the default pool
+
+monitor_prefix: "m_"
+monitor: "tcp" # should be tcp, udp or http
+
+#
+tcp_monitor_settings:
+  interval: 10
+  timeout: 31
+
+udp_monitor_settings:
+  interval: 10
+  timeout: 31
+
+http_monitor_settings:
+  interval: 10
+  timeout: 31
+  receive: ""
+  send: ""
+
+#---------------------------------
+# NODES & POOL
+#---------------------------------
+node_prefix: "n_"
+pool_prefix: "g_"
+
+pool: {}
+#pool:
+  #id: "00"
+  #lb_method: "round-robin"
+  #priority_group_activation: 0
+  #members:
+  #  - { "id": "00", "name": "node-1", "ip": "1.1.1.1", "port": 80, "priority_group": 1, "ratio": 1 }
+  #  - { "id": "01", "name": "node-2", "ip": "1.1.1.2", "port": 80, "priority_group": 1, "ratio": 1 }
+
+#---------------------------------
+# PROFILES
+#---------------------------------
+
+profile_prefix: "p_"
+
+# enabling default http profile creation for the application
+enable_http_profile: false
+
+# enabling default tcp profile creation for the application
+enable_tcp_profile: true
+
+# enabling default udp profile creation for the application
+enable_udp_profile: false
+
+# enabling default ssl client profile creation for the application
+enable_clientssl_profile: false
+ssl_ca_chain: "ca-acknowledge" # the name of Acknowledge ca chain within F5
+ssl_ca_chain_filename: "ca.crt" # ca chain filename
+
+#---------------------------------
+# SNAT
+#---------------------------------
+
+snat_prefix: "snat_"
+
+snat: false # used to enable or disable snat if you want to have snat pool or snat translation
+snat_type: "pool" # should be pool or translation
+snat_pool_members: [ "10.123.2.106", "10.123.2.107" ] # used to define snat pool members
+snat_translation: "10.123.2.106" # used for snat translation address
+
+#---------------------------------
+# VS
+#---------------------------------
+
+vs_prefix: "v_"
+
+vs:
+  address: "10.123.4.35"
+  port: 80
+  type: "standard"

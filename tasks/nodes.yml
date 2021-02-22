@@ -1,0 +1,31 @@
+---
+
+- name: Ensure nodes has been added in defined route domain with default icmp monitor
+  bigip_node:
+    host: "{{ item.ip }}%{{ rd }}"
+    name: "{{ node_prefix }}{{ item.name }}"
+    partition: "{{ team }}"
+    monitors: "/Common/icmp"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  loop: "{{ pool.members }}"
+  when: rd != ""
+
+- name: Ensure nodes has been added in default route domain with default icmp monitor
+  bigip_node:
+    host: "{{ item.ip }}%{{ rd }}"
+    name: "{{ node_prefix }}{{ item.name }}"
+    partition: "{{ team }}"
+    monitors: "/Common/icmp"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  loop: "{{ pool.members }}"
+  when: rd == ""

@@ -1,0 +1,91 @@
+---
+
+- name: Set tcp profile name
+  set_fact:
+    tcp_profile_name: "{{ profile_prefix }}tcp_{{ env }}_{{ application }}"
+
+- name: Set udp profile name
+  set_fact:
+    udp_profile_name: "{{ profile_prefix }}udp_{{ env }}_{{ application }}"
+
+- name: Set http profile name
+  set_fact:
+    http_profile_name: "{{ profile_prefix }}http_{{ env }}_{{ application }}"
+
+- name: Set ssl client profile name
+  set_fact:
+    clientssl_profile_name: "{{ profile_prefix }}clientssl_{{ env }}_{{ application }}"
+
+- name: Create vs profiles list
+  set_fact:
+    vs_profiles: []
+
+- name: Add tcp profile to vs profiles if enabled
+  set_fact:
+    vs_profiles: "{{ [ tcp_profile_name ] + vs_profiles }}"
+  when: enable_tcp_profile | bool
+
+- name: Add udp profile to vs profiles if enabled
+  set_fact:
+    vs_profiles: "{{ [ udp_profile_name ] + vs_profiles }}"
+  when: enable_udp_profile | bool
+
+- name: Add http profile to vs profiles if enabled
+  set_fact:
+    vs_profiles: "{{ [ http_profile_name ] + vs_profiles }}"
+  when: enable_http_profile | bool
+
+- name: Add client ssl profile to vs profiles if enabled
+  set_fact:
+    vs_profiles: "{{ [ clientssl_profile_name ] + vs_profiles }}"
+  when: enable_clientssl_profile | bool
+
+- name: Ensure virtual server has been added with snat automap
+  bigip_virtual_server:
+    name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
+    pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+    partition: "{{ team }}"
+    type: "{{ vs.type }}"
+    destination: "{{ vs.address }}%{{ rd }}"
+    port: "{{ vs.port }}"
+    profiles: "{{ vs_profiles }}"
+    snat: "automap"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: not snat | bool
+
+- name: Ensure virtual server has been added with specific a snat ltm object
+  bigip_virtual_server:
+    name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
+    pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+    partition: "{{ team }}"
+    type: "{{ vs.type }}"
+    destination: "{{ vs.address }}%{{ rd }}"
+    port: "{{ vs.port }}"
+    profiles: "{{ vs_profiles }}"
+    snat: "{{ snat_prefix }}{{ env }}_{{ application }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: snat | bool
+
+- name: Ensure arp has been disabled on virtual address object when vip is not changed
+  bigip_virtual_address:
+    state: present
+    partition: "{{ team }}"
+    address: "{{ vs.address }}"
+    arp: false
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: not readdressed | bool

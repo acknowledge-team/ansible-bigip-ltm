@@ -1,0 +1,90 @@
+---
+
+- name: Create a TCP profile for "{{ application }}"
+  bigip_profile_tcp:
+    name: "{{ profile_prefix }}tcp_{{ env }}_{{ application }}"
+    parent: "/Common/tcp"
+    partition: "{{ team }}"
+    state: present
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: enable_tcp_profile | bool
+
+- name: Create an UDP profile for "{{ application }}"
+  bigip_profile_udp:
+    name: "{{ profile_prefix }}udp_{{ env }}_{{ application }}"
+    parent: "/Common/udp"
+    partition: "{{ team }}"
+    state: present
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: enable_udp_profile | bool
+
+- name: Create an HTTP profile for "{{ application }}"
+  bigip_profile_http:
+    name: "{{ profile_prefix }}http_{{ env }}_{{ application }}"
+    partition: "{{ team }}"
+    parent: "/Common/http"
+    state: present
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: enable_http_profile | bool
+
+## ssl profiles
+- name: Ensure CA certificate chain has been imported in Common partition
+  bigip_ssl_certificate:
+    name: "{{ ssl_ca_chain }}"
+    state: present
+    content: "{{ lookup('file', '{{ playbook_dir }}/files/{{ ssl_ca_chain_filename }}') }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: enable_clientssl_profile | bool
+
+- name: Ensure both key and cert has been imported
+  bigip_ssl_key_cert:
+    partition: "{{ team }}"
+    key_content: "{{ lookup('file', '{{ playbook_dir }}/files/{{ inventory_hostname }}_key.pem') }}"
+    key_name: "key_{{ env }}_{{ application }}"
+    cert_content: "{{ lookup('file', '{{ playbook_dir }}/files/{{ inventory_hostname }}_cert.pem') }}"
+    cert_name: "cert_{{ env }}_{{ application }}"
+    state: present
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: enable_clientssl_profile | bool
+
+- name: Ensure a client SSL profile with a cert/key/chain has been created
+  bigip_profile_client_ssl:
+    partition: "{{ team }}"
+    state: present
+    name: "{{ profile_prefix }}clientssl_{{ env }}_{{ application }}"
+    cert_key_chain:
+      - cert: "cert_{{ env }}_{{ application }}"
+        key: "key_{{ env }}_{{ application }}"
+        chain: "/Common/{{ ssl_ca_chain }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: enable_clientssl_profile | bool
