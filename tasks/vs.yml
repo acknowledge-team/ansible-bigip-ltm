@@ -14,12 +14,12 @@
 
 - name: Add tcp profile to vs profiles if enabled
   set_fact:
-    vs_profiles: "{{ [ /Common/tcp ] + vs_profiles }}"
+    vs_profiles: "{{ [ '/Common/tcp' ] + vs_profiles }}"
   when: enable_tcp_profile | bool
 
 - name: Add udp profile to vs profiles if enabled
   set_fact:
-    vs_profiles: "{{ [ /Common/udp ] + vs_profiles }}"
+    vs_profiles: "{{ [ '/Common/udp' ] + vs_profiles }}"
   when: enable_udp_profile | bool
 
 - name: Add http profile to vs profiles if enabled
