@@ -32,7 +32,7 @@ vlan_name: ""
 monitor_prefix: "m_"
 monitor: "tcp" # should be tcp, udp or http
 
-#
+# basic monitor settings
 tcp_monitor_settings:
   interval: 10
   timeout: 31
@@ -50,8 +50,8 @@ http_monitor_settings:
 #---------------------------------
 # NODES & POOL
 #---------------------------------
-node_prefix: "n_"
-pool_prefix: "g_"
+node_prefix: "n_{{ rd }}_"
+pool_prefix: "g_{{ rd }}_"
 
 pool: {}
 #pool:
@@ -73,20 +73,20 @@ enable_http_profile: false
 
 # enabling default ssl client profile creation for the application
 enable_clientssl_profile: false
-ssl_ca_chain: "ca-acknowledge" # the name of Acknowledge ca chain within F5
-ssl_ca_chain_filename: "ca.crt" # ca chain filename
+ssl_ca_chain: "ca-acknowledge" # used for ca chain name within the bigip
+fqdn: "" # used for certificate and key names within the bigip
 
 #---------------------------------
 # SNAT
 #---------------------------------
 
-snat_prefix: "snat_"
+snat_prefix: "snat_{{ rd }}_"
 
 #---------------------------------
 # VS
 #---------------------------------
 
-vs_prefix: "v_"
+vs_prefix: "v_{{ rd }}_"
 
 vs:
   address: "10.123.4.35"

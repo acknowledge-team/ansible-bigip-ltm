@@ -50,7 +50,7 @@
     destination: "{{ vs.address }}%{{ rd }}"
     port: "{{ vs.port }}"
     profiles: "{{ vs_profiles }}"
-    snat: "{{ snat_prefix }}{{ rd }}_{{ vlan_name }}"
+    snat: "{{ snat_prefix }}{{ vlan_name }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"

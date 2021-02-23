@@ -1,6 +1,6 @@
 ---
 
-- name: Create a default tcp profile for all applications in Common partition
+- name: Create a tcp profile for "{{ application }}"
   bigip_profile_tcp:
     name: "{{ profile_prefix }}tcp_{{ env }}_{{ application }}"
     parent: "/Common/tcp"
@@ -43,43 +43,14 @@
   when: enable_http_profile | bool
 
 ## ssl profiles
-- name: Ensure CA certificate chain has been imported in Common partition
-  bigip_ssl_certificate:
-    name: "{{ ssl_ca_chain }}"
-    state: present
-    content: "{{ lookup('file', '{{ playbook_dir }}/files/{{ ssl_ca_chain_filename }}') }}"
-    provider:
-      password: "{{ bigip_passwd }}"
-      server: "{{ bigip_hostname }}"
-      user: "{{ bigip_user }}"
-      validate_certs: "{{ bigip_validate_certs }}"
-  delegate_to: localhost
-  when: enable_clientssl_profile | bool
-
-- name: Ensure both key and cert has been imported
-  bigip_ssl_key_cert:
-    partition: "{{ team }}"
-    key_content: "{{ lookup('file', '{{ playbook_dir }}/files/{{ inventory_hostname }}_key.pem') }}"
-    key_name: "key_{{ env }}_{{ application }}"
-    cert_content: "{{ lookup('file', '{{ playbook_dir }}/files/{{ inventory_hostname }}_cert.pem') }}"
-    cert_name: "cert_{{ env }}_{{ application }}"
-    state: present
-    provider:
-      password: "{{ bigip_passwd }}"
-      server: "{{ bigip_hostname }}"
-      user: "{{ bigip_user }}"
-      validate_certs: "{{ bigip_validate_certs }}"
-  delegate_to: localhost
-  when: enable_clientssl_profile | bool
-
-- name: Ensure a client SSL profile with a cert/key/chain has been created
+- name: Ensure a client SSL profile for "{{ application }}"
   bigip_profile_client_ssl:
     partition: "{{ team }}"
     state: present
-    name: "{{ profile_prefix }}clientssl_{{ env }}_{{ application }}"
+    name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}"
     cert_key_chain:
-      - cert: "cert_{{ env }}_{{ application }}"
-        key: "key_{{ env }}_{{ application }}"
+      - cert: "/Common/{{ fqdn }}"
+        key: "/Common/{{ fqdn }}"
         chain: "/Common/{{ ssl_ca_chain }}"
     provider:
       password: "{{ bigip_passwd }}"
