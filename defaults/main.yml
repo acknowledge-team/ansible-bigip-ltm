@@ -22,6 +22,7 @@ application: ""
 env: "" # should be rec, dev, prd, ...
 team: ""
 rd: ""
+vlan_name: ""
 
 #---------------------------------
 # DEFAULT POOL MONITOR
@@ -86,11 +87,6 @@ ssl_ca_chain_filename: "ca.crt" # ca chain filename
 #---------------------------------
 
 snat_prefix: "snat_"
-
-snat: false # used to enable or disable snat if you want to have snat pool or snat translation
-snat_type: "pool" # should be pool or translation
-snat_pool_members: [ "10.123.2.106", "10.123.2.107" ] # used to define snat pool members
-snat_translation: "10.123.2.106" # used for snat translation address
 
 #---------------------------------
 # VS

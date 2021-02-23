@@ -40,24 +40,6 @@
     vs_profiles: "{{ [ clientssl_profile_name ] + vs_profiles }}"
   when: enable_clientssl_profile | bool
 
-- name: Ensure virtual server has been added with snat automap
-  bigip_virtual_server:
-    name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
-    pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
-    partition: "{{ team }}"
-    type: "{{ vs.type }}"
-    destination: "{{ vs.address }}%{{ rd }}"
-    port: "{{ vs.port }}"
-    profiles: "{{ vs_profiles }}"
-    snat: "automap"
-    provider:
-      password: "{{ bigip_passwd }}"
-      server: "{{ bigip_hostname }}"
-      user: "{{ bigip_user }}"
-      validate_certs: "{{ bigip_validate_certs }}"
-  delegate_to: localhost
-  when: not snat | bool
-
 - name: Ensure virtual server has been added with specific a snat ltm object
   bigip_virtual_server:
     name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
@@ -67,14 +49,13 @@
     destination: "{{ vs.address }}%{{ rd }}"
     port: "{{ vs.port }}"
     profiles: "{{ vs_profiles }}"
-    snat: "{{ snat_prefix }}{{ env }}_{{ application }}"
+    snat: "{{ snat_prefix }}{{ rd }}_{{ vlan_name }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: snat | bool
 
 - name: Ensure arp has been disabled on virtual address object when vip is not changed
   bigip_virtual_address:

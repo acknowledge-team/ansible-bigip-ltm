@@ -13,10 +13,6 @@
 - name: Ensure pool has been created
   include: pool.yml
 
-- name: Ensure snat ltm objects have been created
-  include: snat.yml
-  when: snat | bool
-
 - name: Ensure ltm profiles used have been created
   include: profiles.yml
 
