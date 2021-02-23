@@ -2,7 +2,7 @@
 
 - name: Ensure snatpool has been created
   bigip_snat_pool:
-    name: "{{ snat_prefix }}{{ env }}_{{ application }}"
+    name: "{{ snat_prefix }}{{ vlan_name }}"
     state: present
     partition: "{{ team }}"
     members: "{{ snat_pool_members }}"
@@ -16,7 +16,7 @@
 
 - name: Ensure snat translation has been created
   bigip_snat_translation:
-    name: "{{ snat_prefix }}{{ env }}_{{ application }}"
+    name: "{{ snat_prefix }}{{ vlan_name }}"
     state: present
     partition: "{{ team }}"
     address: "{{ snat_translation }}"
