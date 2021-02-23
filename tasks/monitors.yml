@@ -1,12 +1,11 @@
 ---
 
-- name: Create udp monitors for the application
+- name: Create a default udp monitor for all applications in common partition
   bigip_monitor_udp:
     state: present
-    name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
-    partition: "{{ team }}"
-    interval: "{{ udp_monitor_settings.interval | default(5) }}"
-    timeout: "{{ udp_monitor_settings.timeout | default(16) }}"
+    name: "m_udp-all"
+    interval: "{{ udp_monitor_settings.interval | default(10) }}"
+    timeout: "{{ udp_monitor_settings.timeout | default(31) }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
@@ -15,13 +14,12 @@
   delegate_to: localhost
   when: monitor == 'udp'
 
-- name: Create tcp monitor for the application
+- name: Create a default tcp monitor for all applications in common partition
   bigip_monitor_tcp:
     state: present
-    name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
-    partition: "{{ team }}"
-    interval: "{{ tcp_monitor_settings.interval | default(5) }}"
-    timeout: "{{ tcp_monitor_settings.timeout | default(16) }}"
+    name: "m_tcp-all"
+    interval: "{{ tcp_monitor_settings.interval | default(10) }}"
+    timeout: "{{ tcp_monitor_settings.timeout | default(31) }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
@@ -35,8 +33,8 @@
     state: present
     name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
     partition: "{{ team }}"
-    interval: "{{ http_monitor_settings.interval | default(5) }}"
-    timeout: "{{ http_monitor_settings.timeout | default(16) }}"
+    interval: "{{ http_monitor_settings.interval | default(10) }}"
+    timeout: "{{ http_monitor_settings.timeout | default(31) }}"
     receive: "{{ http_monitor_settings.receive | default('') }}"
     send: "{{ http_monitor_settings.send | default('') }}"
     provider:

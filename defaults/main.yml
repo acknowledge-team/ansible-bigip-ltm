@@ -71,9 +71,6 @@ profile_prefix: "p_"
 # enabling default http profile creation for the application
 enable_http_profile: false
 
-# enabling default udp profile creation for the application
-enable_udp_profile: false
-
 # enabling default ssl client profile creation for the application
 enable_clientssl_profile: false
 ssl_ca_chain: "ca-acknowledge" # the name of Acknowledge ca chain within F5
