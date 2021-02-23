@@ -1,13 +1,5 @@
 ---
 
-- name: Set tcp profile name
-  set_fact:
-    tcp_profile_name: "{{ profile_prefix }}tcp_{{ env }}_{{ application }}"
-
-- name: Set udp profile name
-  set_fact:
-    udp_profile_name: "{{ profile_prefix }}udp_{{ env }}_{{ application }}"
-
 - name: Set http profile name
   set_fact:
     http_profile_name: "{{ profile_prefix }}http_{{ env }}_{{ application }}"
@@ -22,12 +14,12 @@
 
 - name: Add tcp profile to vs profiles if enabled
   set_fact:
-    vs_profiles: "{{ [ tcp_profile_name ] + vs_profiles }}"
+    vs_profiles: "{{ [ /Common/tcp ] + vs_profiles }}"
   when: enable_tcp_profile | bool
 
 - name: Add udp profile to vs profiles if enabled
   set_fact:
-    vs_profiles: "{{ [ udp_profile_name ] + vs_profiles }}"
+    vs_profiles: "{{ [ /Common/udp ] + vs_profiles }}"
   when: enable_udp_profile | bool
 
 - name: Add http profile to vs profiles if enabled
