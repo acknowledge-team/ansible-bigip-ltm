@@ -44,6 +44,7 @@
   bigip_virtual_server:
     name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+    description: "app={{ application }},team={{ team }}"
     partition: "{{ team }}"
     type: "{{ vs.type }}"
     destination: "{{ vs.address }}%{{ rd }}"
