@@ -82,6 +82,10 @@ fqdn: "" # used for certificate and key names within the bigip
 
 snat_prefix: "snat_{{ rd }}_"
 
+snat_type: "pool" # should be pool or translation
+snat_pool_members: [ "10.128.131.43" ]
+snat_translation: "" # ip address used for translation
+
 #---------------------------------
 # VS
 #---------------------------------

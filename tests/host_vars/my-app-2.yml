@@ -2,14 +2,14 @@
 #---------------------------------
 # BIGIP CONNECTION
 #---------------------------------
-bigip_hostname: ""
-bigip_user: ""
-bigip_passwd: ""
+bigip_hostname: "10.0.0.185"
+bigip_user: "admin"
+bigip_passwd: "admin123"
 
 #---------------------------------
 # MIGRATION FLAGS
 #---------------------------------
-readdressed: false
+readdressed: true
 
 #---------------------------------
 # APPLICATION
@@ -17,7 +17,8 @@ readdressed: false
 application: "my-app-2"
 env: "prod"
 team: "my-team-2"
-rd: "4"
+rd: "0"
+vlan_name: "EVY-LAB-F5-NETOPS"
 
 #---------------------------------
 # DEFAULT POOL MONITOR
@@ -32,18 +33,24 @@ pool:
   lb_method: "round-robin"
   priority_group_activation: 0
   members:
-    - { "name": "node-1", "ip": "10.123.4.50", "port": 80, "priority_group": 1, "ratio": 1 }
-    - { "name": "node-2", "ip": "10.123.4.51", "port": 80, "priority_group": 1, "ratio": 1 }
+    - { "name": "node-1", "ip": "10.1.1.1", "port": 80, "priority_group": 1, "ratio": 1 }
+    - { "name": "node-2", "ip": "10.1.1.2", "port": 80, "priority_group": 1, "ratio": 1 }
 
 #---------------------------------
 # PROFILES 
 #---------------------------------
 enable_http_profile: true
 
-enable_clientssl_profile: true
-ssl_ca_chain: "ca-ack" # the name of Acknowledge ca chain within F5
-ssl_ca_chain_filename: "ca.crt" # ca chain filename
+enable_clientssl_profile: false
 
 #---------------------------------
 # SNAT 
 #---------------------------------
+
+#---------------------------------
+# VS 
+#---------------------------------
+vs:
+  address: "10.128.131.34"
+  port: 80
+  type: "standard"
