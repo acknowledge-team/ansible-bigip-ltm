@@ -1,10 +1,9 @@
 ---
 
-- name: Create a TCP profile for "{{ application }}"
+- name: Create a default tcp profile for all applications in Common partition
   bigip_profile_tcp:
-    name: "{{ profile_prefix }}tcp_{{ env }}_{{ application }}"
+    name: "m_tcp-all"
     parent: "/Common/tcp"
-    partition: "{{ team }}"
     state: present
     provider:
       password: "{{ bigip_passwd }}"
@@ -12,7 +11,6 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: enable_tcp_profile | bool
 
 - name: Create an UDP profile for "{{ application }}"
   bigip_profile_udp:
