@@ -42,7 +42,7 @@
     destination: "{{ vs.address }}%{{ rd }}"
     port: "{{ vs.port }}"
     profiles: "{{ vs_profiles }}"
-    snat: "{{ snat_prefix }}{{ vlan_name }}"
+    snat: "/Common/{{ snat_prefix }}{{ vlan_name }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"

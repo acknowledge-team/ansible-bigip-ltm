@@ -4,7 +4,6 @@
   bigip_snat_pool:
     name: "{{ snat_prefix }}{{ vlan_name }}"
     state: present
-    partition: "{{ team }}"
     members: "{{ snat_pool_members }}"
     provider:
       password: "{{ bigip_passwd }}"
@@ -18,7 +17,6 @@
   bigip_snat_translation:
     name: "{{ snat_prefix }}{{ vlan_name }}"
     state: present
-    partition: "{{ team }}"
     address: "{{ snat_translation }}"
     provider:
       password: "{{ bigip_passwd }}"
