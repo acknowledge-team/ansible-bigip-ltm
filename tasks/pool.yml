@@ -1,6 +1,38 @@
 ---
 
-- name: Ensure defined pool has been created
+- name: Ensure defined pool has been created with udp profile
+  bigip_pool:
+    state: present
+    name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+    partition: "{{ team }}"
+    lb_method: "{{ pool.lb_method | default('round-robin') }}"
+    priority_group_activation: "{{ pool.priority_group_activation | default(0) }}"
+    monitors: "/Common/m_udp-any"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: monitor == "udp"
+
+- name: Ensure defined pool has been created with udp profile
+  bigip_pool:
+    state: present
+    name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+    partition: "{{ team }}"
+    lb_method: "{{ pool.lb_method | default('round-robin') }}"
+    priority_group_activation: "{{ pool.priority_group_activation | default(0) }}"
+    monitors: "/Common/m_tcp-any"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: monitor == "tcp"
+
+- name: Ensure defined pool has been created with udp profile
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
@@ -14,25 +46,7 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-
-- name: Ensure the pool members has been added in the default route domain
-  bigip_pool_member:
-    state: present
-    name: "{{ node_prefix }}{{ item.name }}"
-    address: "{{ item.ip }}"
-    pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
-    partition: "{{ team }}"
-    port: "{{ item.port }}"
-    ratio: "{{ item.ratio | default(1) }}"
-    priority_group: "{{ item.priority_group | default(0) }}"
-    provider:
-      password: "{{ bigip_passwd }}"
-      server: "{{ bigip_hostname }}"
-      user: "{{ bigip_user }}"
-      validate_certs: "{{ bigip_validate_certs }}"
-  delegate_to: localhost
-  loop: "{{ pool.members }}"
-  when: rd == ""
+  when: monitor == "http"
 
 - name: Ensure the pool members has been added in the defined route domain
   bigip_pool_member:
@@ -51,4 +65,3 @@
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
   loop: "{{ pool.members }}"
-  when: rd != ""
