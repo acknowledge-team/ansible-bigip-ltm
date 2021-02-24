@@ -12,6 +12,7 @@
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
   when: snat_type == "pool"
+  run_once: true
 
 - name: Ensure snat translation has been created
   bigip_snat_translation:
@@ -25,3 +26,4 @@
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
   when: snat_type == "translation"
+  run_once: true
