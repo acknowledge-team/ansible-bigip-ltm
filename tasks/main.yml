@@ -16,8 +16,5 @@
 - name: Ensure ltm profiles used have been created
   include: profiles.yml
 
-- name: Ensure snat pools used have been created
-  include: snat.yml
-
 - name: Ensure virtual server has been created
   include: vs.yml

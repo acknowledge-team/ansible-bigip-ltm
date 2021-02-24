@@ -59,8 +59,8 @@ pool: {}
   #lb_method: "round-robin"
   #priority_group_activation: 0
   #members:
-  #  - { "id": "00", "name": "node-1", "ip": "1.1.1.1", "port": 80, "priority_group": 1, "ratio": 1 }
-  #  - { "id": "01", "name": "node-2", "ip": "1.1.1.2", "port": 80, "priority_group": 1, "ratio": 1 }
+  #  - { "id": "00", "name": "node-1", "ip": "1.1.1.1" }
+  #  - { "id": "01", "name": "node-2", "ip": "1.1.1.2" }
 
 #---------------------------------
 # PROFILES
@@ -93,6 +93,6 @@ snat_translation: "" # ip address used for translation
 vs_prefix: "v_rd{{ rd }}_"
 
 vs:
-  address: "10.123.4.35"
+  address: ""
   port: 80
   type: "standard"

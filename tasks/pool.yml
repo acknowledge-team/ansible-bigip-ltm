@@ -6,7 +6,6 @@
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     partition: "{{ team }}"
     lb_method: "{{ pool.lb_method | default('round-robin') }}"
-    priority_group_activation: "{{ pool.priority_group_activation | default(0) }}"
     monitors: "/Common/m_udp-any"
     provider:
       password: "{{ bigip_passwd }}"
@@ -22,7 +21,6 @@
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     partition: "{{ team }}"
     lb_method: "{{ pool.lb_method | default('round-robin') }}"
-    priority_group_activation: "{{ pool.priority_group_activation | default(0) }}"
     monitors: "/Common/m_tcp-any"
     provider:
       password: "{{ bigip_passwd }}"
@@ -38,7 +36,6 @@
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     partition: "{{ team }}"
     lb_method: "{{ pool.lb_method | default('round-robin') }}"
-    priority_group_activation: "{{ pool.priority_group_activation | default(0) }}"
     monitors: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
     provider:
       password: "{{ bigip_passwd }}"
@@ -56,8 +53,6 @@
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     partition: "{{ team }}"
     port: "{{ item.port }}"
-    ratio: "{{ item.ratio | default(1) }}"
-    priority_group: "{{ item.priority_group | default(0) }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
