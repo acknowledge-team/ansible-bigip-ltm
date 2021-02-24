@@ -32,9 +32,9 @@
     vs_profiles: "{{ [ clientssl_profile_name ] + vs_profiles }}"
   when: enable_clientssl_profile | bool
 
-- name: Ensure virtual server "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}" has been added
+- name: Ensure virtual server "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs.port }}" has been added
   bigip_virtual_server:
-    name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
+    name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs.port }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     description: "app={{ application }},team={{ team }}"
     partition: "{{ team }}"
