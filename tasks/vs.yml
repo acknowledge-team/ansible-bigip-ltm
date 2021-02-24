@@ -6,7 +6,7 @@
 
 - name: Set ssl client profile name
   set_fact:
-    clientssl_profile_name: "{{ profile_prefix }}clientssl_{{ env }}_{{ application }}"
+    clientssl_profile_name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}"
 
 - name: Create vs profiles list
   set_fact:
