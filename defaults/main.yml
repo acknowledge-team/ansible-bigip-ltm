@@ -50,8 +50,8 @@ http_monitor_settings:
 #---------------------------------
 # NODES & POOL
 #---------------------------------
-node_prefix: "n_{{ rd }}_"
-pool_prefix: "g_{{ rd }}_"
+node_prefix: "n_rd{{ rd }}_"
+pool_prefix: "g_rd{{ rd }}_"
 
 pool: {}
 #pool:
@@ -75,14 +75,12 @@ enable_udp_profile: false
 
 # enabling default ssl client profile creation for the application
 enable_clientssl_profile: false
-ssl_ca_chain: "ca-acknowledge" # used for ca chain name within the bigip
-fqdn: "" # used for certificate and key names within the bigip
 
 #---------------------------------
 # SNAT
 #---------------------------------
 
-snat_prefix: "snat_{{ rd }}_"
+snat_prefix: "snat_rd{{ rd }}_"
 
 snat_type: "pool" # should be pool or translation
 snat_pool_members: [ "10.128.131.43" ]
@@ -92,7 +90,7 @@ snat_translation: "" # ip address used for translation
 # VS
 #---------------------------------
 
-vs_prefix: "v_{{ rd }}_"
+vs_prefix: "v_rd{{ rd }}_"
 
 vs:
   address: "10.123.4.35"

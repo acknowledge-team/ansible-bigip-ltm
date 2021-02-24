@@ -20,10 +20,6 @@
     partition: "{{ team }}"
     state: present
     name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}"
-    cert_key_chain:
-      - cert: "/Common/{{ fqdn }}"
-        key: "/Common/{{ fqdn }}"
-        chain: "/Common/{{ ssl_ca_chain }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
