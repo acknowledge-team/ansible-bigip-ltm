@@ -32,7 +32,7 @@
     vs_profiles: "{{ [ clientssl_profile_name ] + vs_profiles }}"
   when: enable_clientssl_profile | bool
 
-- name: Ensure virtual server has been added with specific a snat ltm object
+- name: Ensure virtual server "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}" has been added
   bigip_virtual_server:
     name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ rd }}_{{ vs.port }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"

@@ -1,6 +1,6 @@
 ---
 
-- name: Create partition within default route domain
+- name: Create partition "{{ team }}"
   bigip_partition:
     name: "{{ team }}"
     provider:

@@ -12,7 +12,6 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: monitor == 'udp'
 
 - name: Create a default tcp monitor for all applications in common partition
   bigip_monitor_tcp:
@@ -26,9 +25,8 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: monitor == 'tcp'
 
-- name: Create http monitor for the application
+- name: Create http monitor for "{{ application }}"
   bigip_monitor_http:
     state: present
     name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"

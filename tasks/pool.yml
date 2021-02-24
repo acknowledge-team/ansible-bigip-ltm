@@ -1,36 +1,21 @@
 ---
 
-- name: Ensure defined pool has been created with udp profile
+- name: Ensure defined pool has been created with tcp or udp monitor
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     partition: "{{ team }}"
     lb_method: "{{ pool.lb_method | default('round-robin') }}"
-    monitors: "/Common/m_udp-any"
+    monitors: "/Common/m_{{ monitor }}-any"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: monitor == "udp"
+  when: monitor == "udp" or monitor == "tcp"
 
-- name: Ensure defined pool has been created with udp profile
-  bigip_pool:
-    state: present
-    name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
-    partition: "{{ team }}"
-    lb_method: "{{ pool.lb_method | default('round-robin') }}"
-    monitors: "/Common/m_tcp-any"
-    provider:
-      password: "{{ bigip_passwd }}"
-      server: "{{ bigip_hostname }}"
-      user: "{{ bigip_user }}"
-      validate_certs: "{{ bigip_validate_certs }}"
-  delegate_to: localhost
-  when: monitor == "tcp"
-
-- name: Ensure defined pool has been created with udp profile
+- name: Ensure defined pool has been created with http monitor
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
@@ -45,7 +30,7 @@
   delegate_to: localhost
   when: monitor == "http"
 
-- name: Ensure the pool members has been added in the defined route domain
+- name: Ensure the pool members has been added in  "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
   bigip_pool_member:
     state: present
     name: "{{ node_prefix }}{{ item.name }}"
