@@ -37,7 +37,6 @@
     name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs.port }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     description: "app={{ application }},team={{ team }}"
-    partition: "{{ team }}"
     type: "{{ vs.type }}"
     destination: "{{ vs.address }}%{{ rd }}"
     port: "{{ vs.port }}"
@@ -53,7 +52,6 @@
 - name: Ensure arp has been disabled on virtual address object when vip is not changed
   bigip_virtual_address:
     state: present
-    partition: "{{ team }}"
     address: "{{ vs.address }}"
     arp: false
     provider:

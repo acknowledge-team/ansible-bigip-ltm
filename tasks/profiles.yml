@@ -3,7 +3,6 @@
 - name: Create an HTTP profile for "{{ application }}"
   bigip_profile_http:
     name: "{{ profile_prefix }}http_{{ env }}_{{ application }}"
-    partition: "{{ team }}"
     parent: "/Common/http"
     state: present
     provider:
@@ -17,7 +16,6 @@
 ## ssl profiles
 - name: Ensure a client SSL profile for "{{ application }}"
   bigip_profile_client_ssl:
-    partition: "{{ team }}"
     state: present
     name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}"
     provider:

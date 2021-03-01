@@ -4,7 +4,6 @@
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
-    partition: "{{ team }}"
     lb_method: "{{ pool.lb_method | default('round-robin') }}"
     monitors: "/Common/m_{{ monitor }}-any"
     provider:
@@ -19,7 +18,6 @@
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
-    partition: "{{ team }}"
     lb_method: "{{ pool.lb_method | default('round-robin') }}"
     monitors: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
     provider:
@@ -36,7 +34,6 @@
     name: "{{ node_prefix }}{{ item.name }}"
     address: "{{ item.ip }}%{{ rd }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
-    partition: "{{ team }}"
     port: "{{ item.port }}"
     provider:
       password: "{{ bigip_passwd }}"

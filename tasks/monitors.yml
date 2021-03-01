@@ -30,7 +30,6 @@
   bigip_monitor_http:
     state: present
     name: "{{ monitor_prefix }}{{ monitor }}_{{ env }}_{{ application }}"
-    partition: "{{ team }}"
     interval: "{{ http_monitor_settings.interval | default(10) }}"
     timeout: "{{ http_monitor_settings.timeout | default(31) }}"
     receive: "{{ http_monitor_settings.receive | default('') }}"

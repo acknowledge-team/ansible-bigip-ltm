@@ -1,9 +1,6 @@
 ---
 # tasks file for ansible-bigip-ltm
 
-- name: Ensure partitions has been created
-  include: partitions.yml
-
 - name: Ensure monitors has been created
   include: monitors.yml
 

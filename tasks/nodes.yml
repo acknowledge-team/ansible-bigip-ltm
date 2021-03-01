@@ -4,7 +4,6 @@
   bigip_node:
     host: "{{ item.ip }}%{{ rd }}"
     name: "{{ node_prefix }}{{ item.name }}"
-    partition: "{{ team }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
