@@ -4,10 +4,6 @@
   set_fact:
     http_profile_name: "{{ profile_prefix }}http_{{ env }}_{{ application }}"
 
-- name: Set ssl client profile name
-  set_fact:
-    clientssl_profile_name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}"
-
 - name: Create vs profiles list
   set_fact:
     vs_profiles: []
