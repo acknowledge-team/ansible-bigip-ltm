@@ -66,6 +66,7 @@ pool: {}
 profile_prefix: "p_"
 # enabling default ssl client profile creation for the application
 enable_clientssl_profile: false
+clientssl_profile_name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}" # This is the default profile name; it can be override if necessary
 
 #---------------------------------
 # VS

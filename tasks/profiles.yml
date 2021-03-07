@@ -17,7 +17,7 @@
 - name: Ensure a client SSL profile for "{{ application }}"
   bigip_profile_client_ssl:
     state: present
-    name: "{{ profile_prefix }}ssl_{{ env }}_{{ application }}"
+    name: "{{ clientssl_profile_name }}"
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
