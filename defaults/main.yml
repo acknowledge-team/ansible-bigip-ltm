@@ -19,10 +19,9 @@ readdressed: true
 #---------------------------------
 
 application: ""
+contact: "" # should be the email address of application owner
 env: "" # should be rec, dev, prd, ...
-team: ""
-rd: ""
-vlan_name: ""
+rd: "0"
 
 #---------------------------------
 # DEFAULT POOL MONITOR
@@ -57,7 +56,6 @@ pool: {}
 #pool:
   #id: "00"
   #lb_method: "round-robin"
-  #priority_group_activation: 0
   #members:
   #  - { "id": "00", "name": "node-1", "ip": "1.1.1.1" }
   #  - { "id": "01", "name": "node-2", "ip": "1.1.1.2" }
@@ -65,32 +63,22 @@ pool: {}
 #---------------------------------
 # PROFILES
 #---------------------------------
-
 profile_prefix: "p_"
-
-# enabling default http profile creation for the application
-enable_http_profile: false
-enable_tcp_profile: true
-enable_udp_profile: false
-
 # enabling default ssl client profile creation for the application
 enable_clientssl_profile: false
 
 #---------------------------------
-# SNAT
-#---------------------------------
-
-snat_prefix: "snat_rd{{ rd }}_"
-
-snat_type: "pool" # should be pool or translation
-snat_pool_members: [ "10.128.131.43" ]
-snat_translation: "" # ip address used for translation
-
-#---------------------------------
 # VS
 #---------------------------------
+snat_pool_name: "" # snat pool name to use on the virtual server
+
+# enable or disable tcp, udp or http profile on the vs
+enable_tcp_profile: true
+enable_udp_profile: false
+enable_http_profile: false
 
 vs_prefix: "v_rd{{ rd }}_"
+vs_protocol: "tcp" # should be tcp or udp
 
 vs:
   address: ""
