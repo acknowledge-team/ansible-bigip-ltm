@@ -35,6 +35,8 @@
     address: "{{ item.ip }}%{{ rd }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     port: "{{ item.port }}"
+    reuse_nodes: true
+    fqdn_auto_populate: false
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
