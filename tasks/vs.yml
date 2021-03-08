@@ -44,6 +44,24 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
+  when: create_pool | bool
+
+- name: Ensure virtual server "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs_protocol }}-{{ vs.port }}" has been added with no default pool
+  bigip_virtual_server:
+    name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs_protocol }}-{{ vs.port }}"
+    description: "app={{ application }},ip={{ vs.address }},contact={{ contact }}"
+    type: "{{ vs.type }}"
+    destination: "{{ vs.address }}%{{ rd }}"
+    port: "{{ vs.port }}"
+    profiles: "{{ vs_profiles }}"
+    snat: "/Common/{{ snat_pool_name }}"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: not (create_pool | bool)
 
 - name: Ensure arp has been disabled on virtual address object when vip is not changed
   bigip_virtual_address:

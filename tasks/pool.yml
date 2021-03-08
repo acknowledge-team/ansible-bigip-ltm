@@ -12,7 +12,7 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: monitor == "udp" or monitor == "tcp"
+  when: (monitor == "udp" or monitor == "tcp") and (create_pool | bool)
 
 - name: Ensure defined pool has been created with http monitor
   bigip_pool:
@@ -26,7 +26,7 @@
       user: "{{ bigip_user }}"
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
-  when: monitor == "http"
+  when: monitor == "http" and (create_pool | bool)
 
 - name: Ensure the pool members has been added in  "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
   bigip_pool_member:
@@ -42,3 +42,4 @@
       validate_certs: "{{ bigip_validate_certs }}"
   delegate_to: localhost
   loop: "{{ pool.members }}"
+  when: create_pool | bool

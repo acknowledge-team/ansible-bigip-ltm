@@ -51,6 +51,7 @@ http_monitor_settings:
 #---------------------------------
 node_prefix: "n_rd{{ rd }}_"
 pool_prefix: "g_rd{{ rd }}_"
+create_pool: true
 
 pool: {}
 #pool:
