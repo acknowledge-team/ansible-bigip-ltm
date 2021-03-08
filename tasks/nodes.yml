@@ -2,7 +2,7 @@
 - name: Ensure nodes has been added
   bigip_node:
     #host: "{{ item.ip }}%{{ rd }}"
-    host: "{{ item.ip }}"
+    address: "{{ item.ip }}"
     name: "{{ node_prefix }}{{ item.name }}"
     provider:
       password: "{{ bigip_passwd }}"
