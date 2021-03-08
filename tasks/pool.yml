@@ -28,6 +28,20 @@
   delegate_to: localhost
   when: monitor == "http" and (create_pool | bool)
 
+- name: Ensure defined pools has been created with gateway-icmp monitor
+  bigip_pool:
+    state: present
+    name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+    lb_method: "{{ pool.lb_method | default('round-robin') }}"
+    monitors: "gateway-icmp"
+    provider:
+      password: "{{ bigip_passwd }}"
+      server: "{{ bigip_hostname }}"
+      user: "{{ bigip_user }}"
+      validate_certs: "{{ bigip_validate_certs }}"
+  delegate_to: localhost
+  when: monitor == "gateway-icmp"
+
 - name: Ensure the pools members has been added
   bigip_pool_member:
     state: present
