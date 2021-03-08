@@ -28,7 +28,7 @@
     vs_profiles: "{{ [ clientssl_profile_name ] + vs_profiles }}"
   when: enable_clientssl_profile | bool
 
-- name: Ensure virtual server "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs_protocol }}-{{ vs.port }}" has been added
+- name: Ensure virtual server has been added
   bigip_virtual_server:
     name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs_protocol }}-{{ vs.port }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
@@ -46,7 +46,7 @@
   delegate_to: localhost
   when: create_pool | bool
 
-- name: Ensure virtual server "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs_protocol }}-{{ vs.port }}" has been added with no default pool
+- name: Ensure virtual servers with no default pool has been added
   bigip_virtual_server:
     name: "{{ vs_prefix }}{{ env }}_{{ application }}_{{ vs_protocol }}-{{ vs.port }}"
     description: "app={{ application }},ip={{ vs.address }},contact={{ contact }}"

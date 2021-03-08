@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure defined pool has been created with tcp or udp monitor
+- name: Ensure defined pools has been created with tcp or udp monitor
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
@@ -14,7 +14,7 @@
   delegate_to: localhost
   when: (monitor == "udp" or monitor == "tcp") and (create_pool | bool)
 
-- name: Ensure defined pool has been created with http monitor
+- name: Ensure defined pools has been created with http monitor
   bigip_pool:
     state: present
     name: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
@@ -28,7 +28,7 @@
   delegate_to: localhost
   when: monitor == "http" and (create_pool | bool)
 
-- name: Ensure the pool members has been added in  "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
+- name: Ensure the pools members has been added
   bigip_pool_member:
     state: present
     name: "{{ node_prefix }}{{ item.name }}"
