@@ -32,7 +32,8 @@
   bigip_pool_member:
     state: present
     name: "{{ node_prefix }}{{ item.name }}"
-    address: "{{ item.ip }}%{{ rd }}"
+    #address: "{{ item.ip }}%{{ rd }}"
+    address: "{{ item.ip }}"
     pool: "{{ pool_prefix }}{{ env }}_{{ application }}_{{ pool.id }}"
     port: "{{ item.port }}"
     reuse_nodes: true
