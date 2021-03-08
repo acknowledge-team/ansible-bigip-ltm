@@ -4,6 +4,7 @@
     #host: "{{ item.ip }}%{{ rd }}"
     address: "{{ item.ip }}"
     name: "{{ node_prefix }}{{ item.name }}"
+    fqdn_auto_populate: false
     provider:
       password: "{{ bigip_passwd }}"
       server: "{{ bigip_hostname }}"
